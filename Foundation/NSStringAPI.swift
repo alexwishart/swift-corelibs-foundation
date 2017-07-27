@@ -43,6 +43,21 @@ extension String {
   var _ns: NSString {
     return self._bridgeToObjectiveC()
   }
+    
+  func _withCore<Result>(_ apply: (_StringCore) throws -> Result) rethrows -> Result {
+    return try apply(self._ephemeralString._core)
+  }
+
+  func _withReference<Result>(_ apply: (NSString) throws -> Result) rethrows -> Result {
+    return try _withCore { (core) throws -> Result in
+      if core.isASCII {
+        return try apply(NSString(bytesNoCopy: core.startASCII, length: core.count, encoding: String.Encoding.ascii.rawValue, freeWhenDone: false)!)
+      } else {
+        return try apply(NSString(charactersNoCopy: core.startUTF16, length: core.count, freeWhenDone: false))
+      }
+    }
+  }
+
 
   /// Return an `Index` corresponding to the given offset in our UTF-16
   /// representation.
@@ -210,7 +225,8 @@ extension String {
   /// `String` can be converted to a given encoding without loss of
   /// information.
   public func canBeConverted(to encoding: Encoding) -> Bool {
-    return _ns.canBeConverted(to: encoding.rawValue)
+    //return _ns.canBeConverted(to: encoding.rawValue)
+    return _withReference { $0.canBeConverted(to: encoding.rawValue) }
   }
 
   // @property NSString* capitalizedString
@@ -242,7 +258,8 @@ extension String {
   /// Returns the result of invoking `compare:options:` with
   /// `NSCaseInsensitiveSearch` as the only option.
   public func caseInsensitiveCompare(_ aString: String) -> ComparisonResult {
-    return _ns.caseInsensitiveCompare(aString)
+    //return _ns.caseInsensitiveCompare(aString)
+    return _withReference { $0.caseInsensitiveCompare(aString._ephemeralString) }
   }
 
   //===--- Omitted by agreement during API review 5/20/2014 ---------------===//
@@ -260,7 +277,8 @@ extension String {
   /// up to the first characters that aren't equivalent.
   public func commonPrefix(
     with aString: String, options: CompareOptions = []) -> String {
-    return _ns.commonPrefix(with: aString, options: options)
+    //return _ns.commonPrefix(with: aString, options: options)
+    return _withReference { $0.commonPrefix(with: aString._ephemeralString, options: options) }
   }
 
   // - (NSComparisonResult)
@@ -380,14 +398,38 @@ extension String {
 
   /// Returns a `Data` containing a representation of
   /// the `String` encoded using a given encoding.
-  public func data(
-    using encoding: Encoding,
-    allowLossyConversion: Bool = false
-  ) -> Data? {
-    return _ns.data(
-      using: encoding.rawValue,
-      allowLossyConversion: allowLossyConversion)
+  
+    //  public func data(
+//    using encoding: Encoding,
+//    allowLossyConversion: Bool = false
+//  ) -> Data? {
+//    return _ns.data(
+//      using: encoding.rawValue,
+//      allowLossyConversion: allowLossyConversion)
+//  }
+  public func data(using encoding: String.Encoding, allowLossyConversion: Bool = false) -> Data? {
+    return _withCore { (core) -> Data? in
+      if core.isASCII {
+        switch encoding {
+        case .ascii: fallthrough
+        case .utf8: fallthrough
+        case .isoLatin1: fallthrough
+        case .nonLossyASCII: fallthrough
+        case .macOSRoman:
+          return Data(bytes: UnsafeRawPointer(core.startASCII), count: core.count)
+        default:
+          if !allowLossyConversion {
+            return NSString(bytesNoCopy: core.startASCII, length: core.count, encoding: String.Encoding.ascii.rawValue, freeWhenDone: false)?.data(using: encoding.rawValue)
+          }
+          break
+        }
+      } else if !allowLossyConversion {
+        return NSString(charactersNoCopy: core.startUTF16, length: core.count, freeWhenDone: false).data(using: encoding.rawValue)
+      }
+      return _withReference { $0.data(using: encoding.rawValue, allowLossyConversion: allowLossyConversion) }
+    }
   }
+
 
   // @property NSString* decomposedStringWithCanonicalMapping;
 
@@ -473,7 +515,8 @@ extension String {
   /// Returns the fastest encoding to which the `String` may be
   /// converted without loss of information.
   public var fastestEncoding: Encoding {
-    return Encoding(rawValue: _ns.fastestEncoding)
+    //return Encoding(rawValue: _ns.fastestEncoding)
+    return _withReference { String.Encoding(rawValue: $0.fastestEncoding) }
   }
 
   // - (const char *)fileSystemRepresentation
