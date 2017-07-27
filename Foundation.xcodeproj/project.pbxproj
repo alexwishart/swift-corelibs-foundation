@@ -78,7 +78,6 @@
 		5B1FD9DE1D6D16580080E83C /* TaskRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD9D21D6D16580080E83C /* TaskRegistry.swift */; };
 		5B1FD9DF1D6D16580080E83C /* TransferState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD9D31D6D16580080E83C /* TransferState.swift */; };
 		5B1FD9E11D6D178E0080E83C /* libcurl.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1FD9E01D6D178E0080E83C /* libcurl.3.dylib */; };
-                E429ED451E9638DA0031BC20 /* HTTPURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */; };
 		5B1FD9E31D6D17B80080E83C /* TestNSURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1FD9E21D6D17B80080E83C /* TestNSURLSession.swift */; };
 		5B23AB871CE62D17000DB898 /* Boxing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B23AB861CE62D17000DB898 /* Boxing.swift */; };
 		5B23AB891CE62D4D000DB898 /* ReferenceConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B23AB881CE62D4D000DB898 /* ReferenceConvertible.swift */; };
@@ -342,6 +341,7 @@
 		E1A03F361C4828650023AF4D /* PropertyList-1.0.dtd in Resources */ = {isa = PBXBuildFile; fileRef = E1A03F351C4828650023AF4D /* PropertyList-1.0.dtd */; };
 		E1A03F381C482C730023AF4D /* NSXMLDTDTestData.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1A03F371C482C730023AF4D /* NSXMLDTDTestData.xml */; };
 		E1A3726F1C31EBFB0023AF4D /* NSXMLDocumentTestData.xml in Resources */ = {isa = PBXBuildFile; fileRef = E1A3726E1C31EBFB0023AF4D /* NSXMLDocumentTestData.xml */; };
+		E429ED451E9638DA0031BC20 /* HTTPURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */; };
 		EA01AAEC1DA839C4008F4E07 /* TestProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA01AAEB1DA839C4008F4E07 /* TestProgress.swift */; };
 		EA0812691DA71C8A00651B70 /* ProgressFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0812681DA71C8A00651B70 /* ProgressFraction.swift */; };
 		EA08126B1DA80C3600651B70 /* TestNSProgressFraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA08126A1DA80C3600651B70 /* TestNSProgressFraction.swift */; };
@@ -484,19 +484,18 @@
 		5B1FD9C11D6D160F0080E83C /* CFURLSessionInterface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CFURLSessionInterface.c; sourceTree = "<group>"; };
 		5B1FD9C21D6D160F0080E83C /* CFURLSessionInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFURLSessionInterface.h; sourceTree = "<group>"; };
 		5B1FD9C81D6D16580080E83C /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		5B1FD9C91D6D16580080E83C /* EasyHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyHandle.swift; sourceTree = "<group>"; };
-		5B1FD9CA1D6D16580080E83C /* HTTPBodySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPBodySource.swift; sourceTree = "<group>"; };
-		5B1FD9CB1D6D16580080E83C /* HTTPMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMessage.swift; sourceTree = "<group>"; };
-		5B1FD9CC1D6D16580080E83C /* libcurlHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = libcurlHelpers.swift; sourceTree = "<group>"; };
-		5B1FD9CD1D6D16580080E83C /* MultiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiHandle.swift; sourceTree = "<group>"; };
+		5B1FD9C91D6D16580080E83C /* EasyHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EasyHandle.swift; path = http/EasyHandle.swift; sourceTree = "<group>"; };
+		5B1FD9CA1D6D16580080E83C /* HTTPBodySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPBodySource.swift; path = http/HTTPBodySource.swift; sourceTree = "<group>"; };
+		5B1FD9CB1D6D16580080E83C /* HTTPMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPMessage.swift; path = http/HTTPMessage.swift; sourceTree = "<group>"; };
+		5B1FD9CC1D6D16580080E83C /* libcurlHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = libcurlHelpers.swift; path = http/libcurlHelpers.swift; sourceTree = "<group>"; };
+		5B1FD9CD1D6D16580080E83C /* MultiHandle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultiHandle.swift; path = http/MultiHandle.swift; sourceTree = "<group>"; };
 		5B1FD9CE1D6D16580080E83C /* NSURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSession.swift; sourceTree = "<group>"; };
 		5B1FD9CF1D6D16580080E83C /* NSURLSessionConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionConfiguration.swift; sourceTree = "<group>"; };
 		5B1FD9D01D6D16580080E83C /* NSURLSessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionDelegate.swift; sourceTree = "<group>"; };
 		5B1FD9D11D6D16580080E83C /* NSURLSessionTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionTask.swift; sourceTree = "<group>"; };
 		5B1FD9D21D6D16580080E83C /* TaskRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskRegistry.swift; sourceTree = "<group>"; };
-		5B1FD9D31D6D16580080E83C /* TransferState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferState.swift; sourceTree = "<group>"; };
+		5B1FD9D31D6D16580080E83C /* TransferState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransferState.swift; path = http/TransferState.swift; sourceTree = "<group>"; };
 		5B1FD9E01D6D178E0080E83C /* libcurl.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.3.dylib; path = usr/lib/libcurl.3.dylib; sourceTree = SDKROOT; };
-                E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPURLProtocol.swift;  path = HTTPURLProtocol.swift; sourceTree = "<group>"; };
 		5B1FD9E21D6D17B80080E83C /* TestNSURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNSURLSession.swift; sourceTree = "<group>"; };
 		5B23AB861CE62D17000DB898 /* Boxing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boxing.swift; sourceTree = "<group>"; };
 		5B23AB881CE62D4D000DB898 /* ReferenceConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceConvertible.swift; sourceTree = "<group>"; };
@@ -794,6 +793,7 @@
 		E1A03F351C4828650023AF4D /* PropertyList-1.0.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "PropertyList-1.0.dtd"; sourceTree = "<group>"; };
 		E1A03F371C482C730023AF4D /* NSXMLDTDTestData.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NSXMLDTDTestData.xml; sourceTree = "<group>"; };
 		E1A3726E1C31EBFB0023AF4D /* NSXMLDocumentTestData.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = NSXMLDocumentTestData.xml; sourceTree = "<group>"; };
+		E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPURLProtocol.swift; path = http/HTTPURLProtocol.swift; sourceTree = "<group>"; };
 		E876A73D1C1180E000F279EC /* TestNSRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNSRange.swift; sourceTree = "<group>"; };
 		EA01AAEB1DA839C4008F4E07 /* TestProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestProgress.swift; sourceTree = "<group>"; };
 		EA0812681DA71C8A00651B70 /* ProgressFraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressFraction.swift; sourceTree = "<group>"; };
@@ -942,20 +942,6 @@
 			path = NSURLSession;
 			sourceTree = "<group>";
 		};
-		E4F889331E9CF04D008A70EB /* http */ = {
-			isa = PBXGroup;
-			children = (
-				E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */,
-				5B1FD9C91D6D16580080E83C /* EasyHandle.swift */,
-                                5B1FD9CA1D6D16580080E83C /* HTTPBodySource.swift */,
-                                5B1FD9CB1D6D16580080E83C /* HTTPMessage.swift */,
-                                5B1FD9CC1D6D16580080E83C /* libcurlHelpers.swift */,
-                                5B1FD9CD1D6D16580080E83C /* MultiHandle.swift */,
-                                5B1FD9D31D6D16580080E83C /* TransferState.swift */,
-                        );
-                        name = http;
-                        sourceTree = "<group>";
-                };
 		5B5D88531BBC938800234F36 = {
 			isa = PBXGroup;
 			children = (
@@ -1297,6 +1283,20 @@
 				EAB57B791BD2C636004AC5C5 /* Model */,
 			);
 			path = Foundation;
+			sourceTree = "<group>";
+		};
+		E4F889331E9CF04D008A70EB /* http */ = {
+			isa = PBXGroup;
+			children = (
+				E429ED441E9638DA0031BC20 /* HTTPURLProtocol.swift */,
+				5B1FD9C91D6D16580080E83C /* EasyHandle.swift */,
+				5B1FD9CA1D6D16580080E83C /* HTTPBodySource.swift */,
+				5B1FD9CB1D6D16580080E83C /* HTTPMessage.swift */,
+				5B1FD9CC1D6D16580080E83C /* libcurlHelpers.swift */,
+				5B1FD9CD1D6D16580080E83C /* MultiHandle.swift */,
+				5B1FD9D31D6D16580080E83C /* TransferState.swift */,
+			);
+			name = http;
 			sourceTree = "<group>";
 		};
 		EA66F6321BEECC7400136161 /* SwiftRuntime */ = {
