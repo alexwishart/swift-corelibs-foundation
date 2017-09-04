@@ -1191,13 +1191,11 @@ extension NSString {
         
         init(data: Data)
         {
-            let rawData: UnsafePointer<UInt8>
-            rawData = data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
-                return u8Ptr
+            pointer = data.withUnsafeBytes { (rawData: UnsafePointer<UInt8>) in
+                let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
+                uint8Pointer.initialize(from: rawData, count: data.count)
+                return uint8Pointer
             }
-            let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
-            uint8Pointer.initialize(from: rawData, count: data.count)
-            pointer = uint8Pointer
             count = data.count
         }
         
