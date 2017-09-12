@@ -1209,13 +1209,21 @@ extension NSString {
             self.init("")
         } else {
             if (encoding == String.Encoding.utf8.rawValue) {
-                let holder = Holder(data: data)
+                let rawData: UnsafePointer<UInt8>
+                rawData = data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
+                    return u8Ptr
+                }
+                let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
+                uint8Pointer.initialize(from: rawData, count: data.count)
+                let pointer = uint8Pointer
+                let count = data.count
+                
                 let s = String(_StringCore(
-                    baseAddress: holder.pointer,
+                    baseAddress: pointer,
                     count: Int(data.count),
                     elementShift: 0,
                     hasCocoaBuffer: false,
-                    owner: holder
+                    owner: _DataStorage(bytes: pointer, length: count)
                 ))
                 self.init(s)
             }
