@@ -1184,19 +1184,60 @@ extension NSString {
         self.init(str._swiftObject)
     }
     
+    class Holder {
+        var pointer: UnsafeMutablePointer<UInt8>!
+        var count: Int!
+        
+        
+        init(data: Data)
+        {
+            pointer = data.withUnsafeBytes { (rawData: UnsafePointer<UInt8>) in
+                let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
+                uint8Pointer.initialize(from: rawData, count: data.count)
+                return uint8Pointer
+            }
+            count = data.count
+        }
+        
+        deinit {
+            pointer.deallocate(capacity: count)
+        }
+    }
+    
     public convenience init?(data: Data, encoding: UInt) {
         if data.isEmpty {
             self.init("")
         } else {
-        guard let cf = data.withUnsafeBytes({ (bytes: UnsafePointer<UInt8>) -> CFString? in
-            return CFStringCreateWithBytes(kCFAllocatorDefault, bytes, data.count, CFStringConvertNSStringEncodingToEncoding(encoding), true)
-        }) else { return nil }
-        
-            var str: String?
-            if String._conditionallyBridgeFromObjectiveC(cf._nsObject, result: &str) {
-                self.init(str!)
-            } else {
-                return nil
+            if (encoding == String.Encoding.utf8.rawValue) {
+                let rawData: UnsafePointer<UInt8>
+                rawData = data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
+                    return u8Ptr
+                }
+                let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
+                uint8Pointer.initialize(from: rawData, count: data.count)
+                let pointer = uint8Pointer
+                let count = data.count
+                
+                let s = String(_StringCore(
+                    baseAddress: pointer,
+                    count: Int(data.count),
+                    elementShift: 0,
+                    hasCocoaBuffer: false,
+                    owner: _DataStorage(bytes: pointer, length: count)
+                ))
+                self.init(s)
+            }
+            else {
+                guard let cf = data.withUnsafeBytes({ (bytes: UnsafePointer<UInt8>) -> CFString? in
+                    return CFStringCreateWithBytes(kCFAllocatorDefault, bytes, data.count, CFStringConvertNSStringEncodingToEncoding(encoding), true)
+                }) else { return nil }
+                
+                var str: String?
+                if String._conditionallyBridgeFromObjectiveC(cf._nsObject, result: &str) {
+                    self.init(str!)
+                } else {
+                    return nil
+                }
             }
         }
     }
