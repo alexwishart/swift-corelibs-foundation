@@ -384,6 +384,15 @@ extension String {
     using encoding: Encoding,
     allowLossyConversion: Bool = false
   ) -> Data? {
+    if _core.isASCII {
+        switch encoding {
+            case .utf8: return Data(
+                bytes: UnsafeRawPointer(_core.startASCII), count: _core.count)
+            default: return _ns.data(
+            using: encoding.rawValue,
+            allowLossyConversion: allowLossyConversion)
+        }
+    }
     return _ns.data(
       using: encoding.rawValue,
       allowLossyConversion: allowLossyConversion)
