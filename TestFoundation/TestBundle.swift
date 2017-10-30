@@ -36,24 +36,9 @@ class TestBundle : XCTestCase {
     }
     
     func test_paths() {
-        let bundle = Bundle.main
-        
-        // bundlePath
-        XCTAssert(!bundle.bundlePath.isEmpty)
-        XCTAssertEqual(bundle.bundleURL.path, bundle.bundlePath)
-        let path = bundle.bundlePath
-        
-        // etc
-        #if os(OSX)
-        XCTAssertEqual("\(path)/Contents/Resources", bundle.resourcePath)
-        XCTAssertEqual("\(path)/Contents/MacOS/TestFoundation", bundle.executablePath)
-        XCTAssertEqual("\(path)/Contents/Frameworks", bundle.privateFrameworksPath)
-        XCTAssertEqual("\(path)/Contents/SharedFrameworks", bundle.sharedFrameworksPath)
-        XCTAssertEqual("\(path)/Contents/SharedSupport", bundle.sharedSupportPath)
-        #endif
-        
-        XCTAssertNil(bundle.path(forAuxiliaryExecutable: "no_such_file"))
-        XCTAssertNil(bundle.appStoreReceiptURL)
+        self.measure {
+            print("hi")
+        }
     }
     
     func test_resources() {
