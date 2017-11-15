@@ -30,7 +30,8 @@ class TestNSData: XCTestCase {
             }
         }
     }
-    
+  
+
     static var allTests: [(String, (TestNSData) -> () throws -> Void)] {
         return [
             ("testBasicConstruction", testBasicConstruction),
@@ -38,6 +39,12 @@ class TestNSData: XCTestCase {
             ("test_asciiString_asciiEncoding", test_asciiString_asciiEncoding),
             ("test_asciiSubstring_utf8Encoding", test_asciiSubstring_utf8Encoding),
             ("test_asciiSubstring_asciiEncoding", test_asciiSubstring_asciiEncoding),
+            ("test_nonAsciiString_utf16Encoding", test_nonAsciiString_utf16Encoding),
+            ("test_nonAsciiSubstring_utf16Encoding", test_nonAsciiSubstring_utf16Encoding),
+            ("test_nonAsciiString_unicodeEncoding", test_nonAsciiString_unicodeEncoding),
+            ("test_nonAsciiSubstring_unicodeEncoding", test_nonAsciiSubstring_unicodeEncoding),
+            ("test_asciiString_noFastpath", test_asciiString_noFastpath),
+            ("test_nonAsciiString_noFastpath", test_nonAsciiString_noFastpath),
             ("test_base64Data_medium", test_base64Data_medium),
             ("test_base64Data_small", test_base64Data_small),
             ("test_openingNonExistentFile", test_openingNonExistentFile),
@@ -929,6 +936,52 @@ extension TestNSData {
         let asciiSubstring = asciiString[index...]
         let data = asciiSubstring.data(using: .ascii)!
         XCTAssertEqual(String(data: data, encoding: .ascii), "World", "trivial ASCII Substring conversion should work")
+    }
+    
+    func test_nonAsciiString_utf16Encoding() {
+        let bytes = "Hello Swift⚡️".utf16
+        let utf16Array = Array(bytes)
+        let utf16String = String(utf16CodeUnits: utf16Array, count: utf16Array.count)
+        let data = utf16String.data(using: .utf16)!
+        XCTAssertEqual(String(data: data, encoding: .utf16), "Hello Swift⚡️", "trivial non-ascii utf16 String conversion should work")
+    }
+    
+    func test_nonAsciiSubstring_utf16Encoding() {
+        let bytes = "Hello Swift⚡️".utf16
+        let utf16Array = Array(bytes)
+        let utf16String = String(utf16CodeUnits: utf16Array, count: utf16Array.count)
+        let index = utf16String.index(of: "S")!
+        let utf16Substring = utf16String[index...]
+        let data = utf16Substring.data(using: .utf16)!
+        XCTAssertEqual(String(data: data, encoding: .utf16), "Swift⚡️", "trivial non-ascii utf16 Substring conversion should work")
+    }
+    
+    func test_nonAsciiString_unicodeEncoding() {
+        let bytes = "Hello Swift⚡️".unicodeScalars
+        let unicodeString = String(bytes)
+        let data = unicodeString.data(using: .unicode)!
+        XCTAssertEqual(String(data: data, encoding: .unicode), "Hello Swift⚡️", "trivial non-ascii unicode String conversion should work")
+    }
+    
+    func test_nonAsciiSubstring_unicodeEncoding() {
+        let bytes = "Hello Swift⚡️".unicodeScalars
+        let unicodeString = String(bytes)
+        let index = unicodeString.index(of: "S")!
+        let unicodeSubstring = unicodeString[index...]
+        let data = unicodeSubstring.data(using: .unicode)!
+        XCTAssertEqual(String(data: data, encoding: .unicode), "Swift⚡️", "trivial non-ascii unicode Substring conversion should work")
+    }
+    
+    func test_asciiString_noFastpath() {
+        let asciiString = "Hello World"
+        let data = asciiString.data(using: .utf16)!
+        XCTAssertEqual(String(data: data, encoding: .utf16), "Hello World", "trivial ascii non-fastpath String conversion should work")
+    }
+    
+    func test_nonAsciiString_noFastpath() {
+        let nonAsciiString = "Hello Swift⚡️"
+        let data = nonAsciiString.data(using: .utf8)!
+        XCTAssertEqual(String(data: data, encoding: .utf8), "Hello Swift⚡️", "trivial non-ascii non-fastpath String conversion should work")
     }
 
     func test_openingNonExistentFile() {

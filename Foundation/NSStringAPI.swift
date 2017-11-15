@@ -766,9 +766,25 @@ extension StringProtocol where Index == String.Index {
                 case .nonLossyASCII: fallthrough
                 case .utf8: return Data(
                     bytes: UnsafeRawPointer(ephemeralString._core.startASCII), count: ephemeralString._core.count)
-                default:  return _ns.data(
-                    using: encoding.rawValue,
-                    allowLossyConversion: allowLossyConversion)
+                default: break
+        }
+    }
+    else {
+        let str = ""
+        var BOMData = str._ns.data(
+           using: encoding.rawValue,
+            allowLossyConversion: allowLossyConversion)
+        
+        switch encoding {
+            case .utf16: fallthrough
+            case .unicode:
+                let bytes = UnsafeRawPointer(ephemeralString._core.startUTF16)
+                let data = Data(
+                    bytes: bytes, count: ephemeralString._core.count * MemoryLayout<UInt16>.size)
+                BOMData!.append(data)
+                let result = BOMData
+                return result
+            default: break
         }
     }
     return _ns.data(
